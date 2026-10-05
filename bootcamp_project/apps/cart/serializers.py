@@ -1,31 +1,23 @@
 from rest_framework import serializers
-from .models import Course, Cart, CartItem
+from .models import Carrito, ItemCarrito
 
 
-class CourseSerializer(serializers.ModelSerializer):
+class ItemCarritoSerializer(serializers.ModelSerializer):
+    curso_nombre = serializers.CharField(source='curso.nombre', read_only=True)
+
     class Meta:
-        model = Course
-        fields = ['id', 'title', 'price']
+        model = ItemCarrito
+        fields = ['id', 'curso', 'curso_nombre', 'precio', 'reservado_hasta']
 
 
-class CartItemSerializer(serializers.ModelSerializer):
-    course = CourseSerializer(read_only=True)
-    course_id = serializers.PrimaryKeyRelatedField(
-        queryset=Course.objects.all(),
-        source='course',
-        write_only=True
-    )
+class CarritoSerializer(serializers.ModelSerializer):
+    items = serializers.SerializerMethodField()
     subtotal = serializers.ReadOnlyField()
 
     class Meta:
-        model = CartItem
-        fields = ['id', 'course', 'course_id', 'quantity', 'subtotal']
+        model = Carrito
+        fields = ['id', 'items', 'subtotal', 'creado_en']
 
-
-class CartSerializer(serializers.ModelSerializer):
-    items = CartItemSerializer(many=True, read_only=True)
-    total = serializers.ReadOnlyField()
-
-    class Meta:
-        model = Cart
-        fields = ['id', 'items', 'total', 'created_at']
+    def get_items(self, obj):
+        from django.utils import timezone
+        return ItemCarritoSerializer(obj.items.filter(reservado_hasta__gt=timezone.now()), many=True).data

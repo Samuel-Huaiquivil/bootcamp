@@ -1,55 +1,38 @@
-from rest_framework import viewsets, status
-from rest_framework.decorators import action
+from django.shortcuts import get_object_or_404
+from django.db import transaction
+from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from .models import Course, Cart, CartItem
-from .serializers import CourseSerializer, CartSerializer, CartItemSerializer
+from rest_framework.views import APIView
+from apps.courses.models import Curso
+from apps.orders.services import agregar_al_carrito, bloquear_curso
+from apps.users.permissions import EsEstudiante
+from .models import Carrito, ItemCarrito
+from .serializers import CarritoSerializer, ItemCarritoSerializer
 
 
-class CourseViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Course.objects.all()
-    serializer_class = CourseSerializer
+class CarritoView(APIView):
+    permission_classes = [EsEstudiante]
+
+    def get(self, request):
+        carrito, _ = Carrito.objects.get_or_create(usuario=request.user)
+        return Response(CarritoSerializer(carrito).data)
 
 
-class CartViewSet(viewsets.ViewSet):
-    permission_classes = [IsAuthenticated]
+class AgregarCarritoView(APIView):
+    permission_classes = [EsEstudiante]
 
-    def _get_cart(self, request):
-        cart, _ = Cart.objects.get_or_create(user=request.user)
-        return cart
+    def post(self, request):
+        curso = get_object_or_404(Curso, pk=request.data.get('curso_id'))
+        item = agregar_al_carrito(request.user, curso.pk)
+        return Response(ItemCarritoSerializer(item).data, status=status.HTTP_201_CREATED)
 
-    def list(self, request):
-        cart = self._get_cart(request)
-        return Response(CartSerializer(cart).data)
 
-    @action(detail=False, methods=['post'])
-    def add(self, request):
-        cart = self._get_cart(request)
-        serializer = CartItemSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+class QuitarCarritoView(APIView):
+    permission_classes = [EsEstudiante]
 
-        course = serializer.validated_data['course']
-        quantity = serializer.validated_data.get('quantity', 1)
-
-        item, created = CartItem.objects.get_or_create(
-            cart=cart, course=course,
-            defaults={'quantity': quantity}
-        )
-        if not created:
-            item.quantity += quantity
-            item.save()
-
-        return Response(CartItemSerializer(item).data, status=status.HTTP_201_CREATED)
-
-    @action(detail=False, methods=['post'])
-    def remove(self, request):
-        cart = self._get_cart(request)
-        item_id = request.data.get('item_id')
-        CartItem.objects.filter(cart=cart, id=item_id).delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-    @action(detail=False, methods=['post'])
-    def clear(self, request):
-        cart = self._get_cart(request)
-        cart.items.all().delete()
+    @transaction.atomic
+    def delete(self, request, pk):
+        item = get_object_or_404(ItemCarrito, pk=pk, carrito__usuario=request.user)
+        bloquear_curso(item.curso_id)
+        item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
