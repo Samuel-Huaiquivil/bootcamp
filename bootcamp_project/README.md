@@ -13,7 +13,21 @@ Desde `bootcamp_project`:
 ..\venv\Scripts\python.exe manage.py runserver
 ```
 
-Se requiere `SECRET_KEY` en `.env` (hay un archivo local ignorado por Git). La base nueva es `db_mvp.sqlite3`; el archivo SQLite anterior permanece intacto. El superusuario es el único administrador. No se usa Django Admin.
+Se requieren `SECRET_KEY` y `DATABASE_URL` en `.env` (archivo local ignorado por Git). Por ejemplo, `DATABASE_URL=postgres://usuario:clave@localhost:5432/bootcamp`. Ejecuta las migraciones en la base indicada por esa URL. El superusuario es el único administrador. No se usa Django Admin.
+
+## Páginas web
+
+Con el servidor en marcha, abre `/` para ver el catálogo. La navegación cambia según la cuenta:
+
+| Rol | Páginas |
+| --- | --- |
+| Estudiante | Catálogo, detalle del curso, carrito, órdenes y mis cursos. |
+| Profesor | `/docencia/`: cursos asignados y estudiantes con inscripción confirmada en cada curso. |
+| Superusuario | `/gestion/`: panel, cursos, profesores, inscripciones y órdenes. |
+
+Las páginas usan sesiones de Django y comparten las reglas de compra con la API. La reserva dura 15 minutos y el pago desde la página de órdenes es simulado. El superusuario puede crear y editar cursos, asignar profesores desde el formulario de curso, crear cuentas de profesor e inscribir estudiantes directamente sin cobro.
+
+El HTML reutilizable está en `templates/web/` y sus estilos en `static/web/site.css`. `templates/EsquemaMolde.html` y `templates/styles.css` quedan como boceto original.
 
 ## Recorrido
 
@@ -50,4 +64,4 @@ Se requiere `SECRET_KEY` en `.env` (hay un archivo local ignorado por Git). La b
 
 Para ejecutar las pruebas: `..\venv\Scripts\python.exe manage.py test apps.courses.tests`.
 
-SQLite es apropiado para desarrollo. Para despliegue con compradores simultáneos se recomienda PostgreSQL y pruebas de concurrencia; `select_for_update()` no da bloqueo de filas en SQLite.
+PostgreSQL permite los bloqueos de filas usados para reservar cupos con compradores simultáneos. Antes de un despliegue real conviene verificar ese comportamiento bajo concurrencia.

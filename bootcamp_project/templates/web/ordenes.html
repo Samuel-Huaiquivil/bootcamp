@@ -1,0 +1,16 @@
+{% extends 'web/base.html' %}
+{% block title %}Órdenes{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">Historial</p><h1>Mis órdenes</h1><p>Confirma el pago simulado de tus órdenes pendientes antes de que venza la reserva.</p></div>
+<div class="item-list">
+  {% for orden in ordenes %}
+    <article class="list-card order-card"><div class="order-main"><div class="order-top"><h2>Orden #{{ orden.pk }}</h2><span class="status">{{ orden.get_estado_display }}</span></div>
+      <p>Creada {{ orden.creada_en|date:'d M Y, H:i' }} · Total ${{ orden.total|floatformat:2 }}</p>
+      <ul>{% for item in orden.items.all %}<li>{{ item.curso.nombre }} · ${{ item.precio|floatformat:2 }}</li>{% endfor %}</ul>
+    </div>
+    {% if orden.estado == 'pendiente' %}
+      <form method="post" action="{% url 'web_pagar_orden' orden.pk %}">{% csrf_token %}<button class="button" type="submit">Confirmar pago simulado</button></form>
+    {% endif %}</article>
+  {% empty %}<div class="empty-state"><h2>Aún no tienes órdenes</h2><p>Agrega cursos al carrito para empezar.</p><a class="button" href="{% url 'web_catalogo' %}">Ver cursos</a></div>{% endfor %}
+</div>
+{% endblock %}

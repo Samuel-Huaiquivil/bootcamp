@@ -1,0 +1,25 @@
+{% extends 'web/base.html' %}
+{% block title %}Catálogo{% endblock %}
+{% block content %}
+<section class="hero">
+  <p class="eyebrow">Catálogo de cursos</p>
+  <h1>Encuentra tu próximo curso</h1>
+  <p>Explora las próximas fechas y elige el curso que quieres tomar.</p>
+</section>
+<div class="section-heading"><h2>Cursos publicados</h2><span>{{ cursos|length }} disponibles en el catálogo</span></div>
+<div class="card-grid">
+  {% for curso in cursos %}
+    <article class="card">
+      <div class="card-art" aria-hidden="true">{{ curso.nombre|first|upper }}</div>
+      <div class="card-body">
+        <p class="eyebrow">Comienza {{ curso.fecha_inicio|date:'d M Y' }}</p>
+        <h3><a href="{% url 'web_curso' curso.pk %}">{{ curso.nombre }}</a></h3>
+        <p>{{ curso.descripcion|default:'Conoce los contenidos, fechas y detalles del curso.'|truncatewords:24 }}</p>
+        <div class="card-bottom"><strong>${{ curso.precio|floatformat:2 }}</strong><a class="button button-small" href="{% url 'web_curso' curso.pk %}">Ver curso</a></div>
+      </div>
+    </article>
+  {% empty %}
+    <div class="empty-state"><h3>Aún no hay cursos publicados</h3><p>Vuelve pronto para revisar las próximas fechas.</p></div>
+  {% endfor %}
+</div>
+{% endblock %}

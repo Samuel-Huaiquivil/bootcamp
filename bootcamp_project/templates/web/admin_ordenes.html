@@ -1,0 +1,8 @@
+{% extends 'web/base.html' %}
+{% block title %}Gestionar órdenes{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">Administración</p><h1>Órdenes</h1><p>Consulta los pagos simulados y el estado de cada orden.</p></div>
+{% if ordenes %}<div class="table-wrap"><table><thead><tr><th>Orden</th><th>Estudiante</th><th>Cursos</th><th>Estado</th><th>Total</th><th>Fecha</th></tr></thead><tbody>
+  {% for orden in ordenes %}<tr><td>#{{ orden.pk }}</td><td>{{ orden.usuario.username }}</td><td>{% for item in orden.items.all %}{{ item.curso.nombre }}{% if not forloop.last %}, {% endif %}{% endfor %}</td><td>{{ orden.get_estado_display }}</td><td>${{ orden.total|floatformat:2 }}</td><td>{{ orden.creada_en|date:'d M Y, H:i' }}</td></tr>{% endfor %}
+</tbody></table></div>{% else %}<div class="empty-state"><h2>Aún no hay órdenes</h2><p>Las compras de los estudiantes aparecerán aquí.</p></div>{% endif %}
+{% endblock %}

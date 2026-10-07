@@ -1,0 +1,13 @@
+{% extends 'web/base.html' %}
+{% block title %}{{ curso.nombre }} · Profesor{% endblock %}
+{% block content %}
+<a class="back-link" href="{% url 'web_profesor_cursos' %}">← Mis cursos</a>
+<div class="page-heading"><p class="eyebrow">{{ curso.get_estado_display }}</p><h1>{{ curso.nombre }}</h1><p>Inicio {{ curso.fecha_inicio|date:'d M Y, H:i' }} · Término {{ curso.fecha_termino|date:'d M Y, H:i' }}</p></div>
+{% if curso.descripcion %}<p class="lead">{{ curso.descripcion|linebreaksbr }}</p>{% endif %}
+<section class="content-section"><h2>Estudiantes inscritos</h2>
+  {% if estudiantes %}<div class="table-wrap"><table><thead><tr><th>Estudiante</th><th>Usuario</th><th>Correo</th><th>Inscrito el</th></tr></thead><tbody>
+    {% for inscripcion in estudiantes %}<tr><td>{{ inscripcion.estudiante.get_full_name|default:inscripcion.estudiante.username }}</td><td>{{ inscripcion.estudiante.username }}</td><td>{{ inscripcion.estudiante.email }}</td><td>{{ inscripcion.creada_en|date:'d M Y' }}</td></tr>{% endfor %}
+  </tbody></table></div>
+  {% else %}<div class="empty-state"><p>Todavía no hay estudiantes con inscripción confirmada.</p></div>{% endif %}
+</section>
+{% endblock %}

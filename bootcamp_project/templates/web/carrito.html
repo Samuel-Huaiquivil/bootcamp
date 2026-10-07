@@ -1,0 +1,20 @@
+{% extends 'web/base.html' %}
+{% block title %}Carrito{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">Tu selección</p><h1>Carrito</h1><p>Los cupos se reservan durante 15 minutos desde que agregas cada curso.</p></div>
+{% if items %}
+  <div class="list-layout">
+    <div class="item-list">
+      {% for item in items %}
+        <article class="list-card"><div><h2><a href="{% url 'web_curso' item.curso.pk %}">{{ item.curso.nombre }}</a></h2><p>Inicio: {{ item.curso.fecha_inicio|date:'d M Y' }} · Reserva hasta: {{ item.reservado_hasta|date:'d M Y, H:i' }}</p></div>
+          <div class="item-actions"><strong>${{ item.precio|floatformat:2 }}</strong><form method="post" action="{% url 'web_quitar' item.pk %}">{% csrf_token %}<button class="link-button" type="submit">Quitar</button></form></div>
+        </article>
+      {% endfor %}
+    </div>
+    <aside class="summary-card"><h2>Resumen</h2><div class="total-row"><span>Subtotal</span><strong>${{ subtotal|floatformat:2 }}</strong></div>
+      <form method="post" action="{% url 'web_crear_orden' %}">{% csrf_token %}<button class="button button-full" type="submit">Crear orden</button></form>
+      <small>El pago se confirma en el siguiente paso y es simulado.</small>
+    </aside>
+  </div>
+{% else %}<div class="empty-state"><h2>Tu carrito está vacío</h2><p>Elige un curso para comenzar.</p><a class="button" href="{% url 'web_catalogo' %}">Explorar cursos</a></div>{% endif %}
+{% endblock %}

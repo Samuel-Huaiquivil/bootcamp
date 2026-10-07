@@ -14,7 +14,11 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path, include
+from django.urls import path, re_path
+from django.contrib.auth import views as auth_views
+from django.shortcuts import redirect
+from . import web_views
+from . import role_views
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from apps.users.views import RegistroView, MiPerfilView, UsuariosAdminView
 from apps.courses.views import CursoListaView, CursoDetalleView, CursosAdminView, CursoAdminDetalleView, AsignarProfesorView
@@ -23,6 +27,32 @@ from apps.orders.views import CrearOrdenView, OrdenesView, PagarOrdenView, Orden
 from apps.enrollments.views import InscripcionesView, CancelarInscripcionView, InscribirAdminView
 
 urlpatterns = [
+    path('', web_views.catalogo, name='web_catalogo'),
+    path('cursos/<int:pk>/', web_views.detalle_curso, name='web_curso'),
+    path('registro/', web_views.registro, name='web_registro'),
+    path('ingresar/', role_views.RoleLoginView.as_view(), name='web_login'),
+    path('docencia/', role_views.profesor_cursos, name='web_profesor_cursos'),
+    path('docencia/cursos/<int:pk>/', role_views.profesor_curso, name='web_profesor_curso'),
+    path('gestion/', role_views.admin_dashboard, name='web_admin_dashboard'),
+    path('gestion/cursos/', role_views.admin_cursos, name='web_admin_cursos'),
+    path('gestion/cursos/nuevo/', role_views.admin_curso_form, name='web_admin_curso_nuevo'),
+    path('gestion/cursos/<int:pk>/editar/', role_views.admin_curso_form, name='web_admin_curso_editar'),
+    path('gestion/profesores/', role_views.admin_profesores, name='web_admin_profesores'),
+    path('gestion/profesores/nuevo/', role_views.admin_profesor_nuevo, name='web_admin_profesor_nuevo'),
+    path('gestion/inscripciones/', role_views.admin_inscripciones, name='web_admin_inscripciones'),
+    path('gestion/inscripciones/nueva/', role_views.admin_inscripcion_nueva, name='web_admin_inscripcion_nueva'),
+    path('gestion/ordenes/', role_views.admin_ordenes, name='web_admin_ordenes'),
+    path('salir/', auth_views.LogoutView.as_view(), name='web_logout'),
+    path('carrito/', web_views.carrito, name='web_carrito'),
+    path('carrito/agregar/<int:pk>/', web_views.agregar_curso, name='web_agregar'),
+    path('carrito/quitar/<int:pk>/', web_views.quitar_curso, name='web_quitar'),
+    path('ordenes/', web_views.ordenes, name='web_ordenes'),
+    path('ordenes/crear/', web_views.crear_orden_web, name='web_crear_orden'),
+    path('ordenes/<int:pk>/pagar/', web_views.pagar_orden_web, name='web_pagar_orden'),
+    path('inscripciones/', web_views.inscripciones, name='web_inscripciones'),
+    path('inscripciones/<int:pk>/cancelar/', web_views.cancelar_inscripcion_web, name='web_cancelar_inscripcion'),
+
+
     path('api/registro/', RegistroView.as_view()),
     path('api/token/', TokenObtainPairView.as_view()),
     path('api/token/renovar/', TokenRefreshView.as_view()),
@@ -43,4 +73,5 @@ urlpatterns = [
     path('api/gestion/cursos/<int:pk>/profesores/', AsignarProfesorView.as_view()),
     path('api/gestion/inscripciones/', InscribirAdminView.as_view()),
     path('api/gestion/ordenes/', OrdenesAdminView.as_view()),
+    re_path(r'^.*$', lambda request: redirect('/', permanent=False)),
 ]

@@ -1,0 +1,15 @@
+{% extends 'web/base.html' %}
+{% block title %}Mis cursos{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">Aprendizaje</p><h1>Mis cursos</h1><p>Revisa tus inscripciones y sus fechas.</p></div>
+<div class="item-list">
+  {% for inscripcion in inscripciones %}
+    <article class="list-card"><div><h2><a href="{% url 'web_curso' inscripcion.curso.pk %}">{{ inscripcion.curso.nombre }}</a></h2>
+      <p>Inicio {{ inscripcion.curso.fecha_inicio|date:'d M Y, H:i' }} · {{ inscripcion.get_estado_display }}</p></div>
+      {% if inscripcion.estado == 'confirmada' and inscripcion.curso.fecha_inicio > now %}
+        <form method="post" action="{% url 'web_cancelar_inscripcion' inscripcion.pk %}">{% csrf_token %}<button class="link-button" type="submit">Cancelar inscripción</button></form>
+      {% endif %}
+    </article>
+  {% empty %}<div class="empty-state"><h2>Aún no tienes inscripciones</h2><p>Explora el catálogo y encuentra un curso.</p><a class="button" href="{% url 'web_catalogo' %}">Ver cursos</a></div>{% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends 'web/base.html' %}
+{% block title %}Gestionar cursos{% endblock %}
+{% block content %}
+<div class="page-heading heading-actions"><div><p class="eyebrow">Administración</p><h1>Cursos</h1><p>Crea, publica y asigna profesores a los cursos.</p></div><a class="button" href="{% url 'web_admin_curso_nuevo' %}">Crear curso</a></div>
+{% if cursos %}<div class="table-wrap"><table><thead><tr><th>Curso</th><th>Estado</th><th>Inicio</th><th>Cupos</th><th>Profesores</th><th></th></tr></thead><tbody>
+  {% for curso in cursos %}<tr><td><strong>{{ curso.nombre }}</strong></td><td>{{ curso.get_estado_display }}</td><td>{{ curso.fecha_inicio|date:'d M Y' }}</td><td>{{ curso.cupos }}</td><td>{% for profesor in curso.profesores.all %}{{ profesor.get_full_name|default:profesor.username }}{% if not forloop.last %}, {% endif %}{% empty %}Sin asignar{% endfor %}</td><td><a href="{% url 'web_admin_curso_editar' curso.pk %}">Editar</a></td></tr>{% endfor %}
+</tbody></table></div>{% else %}<div class="empty-state"><h2>No hay cursos</h2><p>Crea el primero para comenzar.</p></div>{% endif %}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'web/base.html' %}
+{% block title %}Inscribir estudiante{% endblock %}
+{% block content %}
+<a class="back-link" href="{% url 'web_admin_inscripciones' %}">← Inscripciones</a>
+<div class="form-card"><p class="eyebrow">Administración</p><h1>Inscribir estudiante</h1><p>Esta acción confirma la inscripción sin generar un cobro.</p>
+  <form method="post">{% csrf_token %}
+    {% if form.non_field_errors %}<div class="field-error">{{ form.non_field_errors }}</div>{% endif %}
+    {% for field in form %}<label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% if field.errors %}<div class="field-error">{{ field.errors }}</div>{% endif %}{% endfor %}
+    <button class="button button-full" type="submit">Confirmar inscripción</button>
+  </form>
+</div>
+{% endblock %}

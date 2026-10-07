@@ -1,0 +1,51 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Cursos{% endblock %} · Aula Abierta</title>
+  <link rel="stylesheet" href="{% static 'web/site.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="{% url 'web_catalogo' %}">Aula Abierta</a>
+      <nav class="site-nav" aria-label="Navegación principal">
+        <a href="{% url 'web_catalogo' %}">Cursos</a>
+        {% if user.is_authenticated and user.is_superuser %}
+          <a href="{% url 'web_admin_dashboard' %}">Panel</a>
+          <a href="{% url 'web_admin_cursos' %}">Gestionar cursos</a>
+          <a href="{% url 'web_admin_profesores' %}">Profesores</a>
+          <a href="{% url 'web_admin_inscripciones' %}">Inscripciones</a>
+          <a href="{% url 'web_admin_ordenes' %}">Órdenes</a>
+        {% elif user.is_authenticated and user.rol == 'profesor' %}
+          <a href="{% url 'web_profesor_cursos' %}">Mis cursos</a>
+        {% elif user.is_authenticated and user.rol == 'estudiante' %}
+          <a href="{% url 'web_carrito' %}">Carrito</a>
+          <a href="{% url 'web_ordenes' %}">Órdenes</a>
+          <a href="{% url 'web_inscripciones' %}">Mis cursos</a>
+        {% endif %}
+      </nav>
+      <div class="account-nav">
+        {% if user.is_authenticated %}
+          <span class="account-name">Hola, {{ user.username }}</span>
+          <form method="post" action="{% url 'web_logout' %}">{% csrf_token %}<button class="link-button" type="submit">Salir</button></form>
+        {% else %}
+          <a href="{% url 'web_login' %}">Ingresar</a>
+          <a class="button button-small" href="{% url 'web_registro' %}">Registrarse</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+  <main class="container page">
+    {% if messages %}
+      <div class="messages" aria-live="polite">
+        {% for message in messages %}<p class="message message-{{ message.tags }}">{{ message }}</p>{% endfor %}
+      </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="site-footer"><div class="container">Aula Abierta · Inscripciones y pagos simulados para este proyecto.</div></footer>
+</body>
+</html>

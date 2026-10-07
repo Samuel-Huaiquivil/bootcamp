@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Tienda - Molde Base</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- ==================== HEADER ==================== -->
+    <header class="header">
+        <div class="header__logo">
+            <a href="#">🛒 MiTienda</a>
+        </div>
+
+        <nav class="header__nav">
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#productos">Productos</a></li>
+                <li><a href="#ofertas">Ofertas</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+
+        <div class="header__actions">
+            <button id="btnLogin" class="btn btn--outline">Iniciar sesión</button>
+            <button id="btnRegister" class="btn btn--primary">Registrarse</button>
+        </div>
+    </header>
+
+    <!-- ==================== LAYOUT PRINCIPAL ==================== -->
+    <div class="layout">
+
+        <!-- ============ MENÚ LATERAL ============ -->
+        <aside class="sidebar">
+            <h3 class="sidebar__title">Categorías</h3>
+            <ul class="sidebar__menu">
+                <li><a href="#">🏠 Todos</a></li>
+                <li><a href="#">👕 Ropa</a></li>
+                <li><a href="#">👟 Calzado</a></li>
+                <li><a href="#">💻 Electrónica</a></li>
+                <li><a href="#">🎮 Videojuegos</a></li>
+                <li><a href="#">📚 Libros</a></li>
+                <li><a href="#">🏡 Hogar</a></li>
+                <li><a href="#">🎁 Ofertas</a></li>
+            </ul>
+
+            <h3 class="sidebar__title">Filtros</h3>
+            <ul class="sidebar__menu">
+                <li><a href="#">Precio más bajo</a></li>
+                <li><a href="#">Mejor valorados</a></li>
+                <li><a href="#">Novedades</a></li>
+            </ul>
+        </aside>
+
+        <!-- ============ BODY / LISTA DE CONTENEDORES ============ -->
+        <main class="main">
+            <h1 class="main__title">Productos Destacados</h1>
+
+            <section class="grid">
+                <!-- Contenedor de producto (repetible) -->
+                <article class="card">
+                    <div class="card__image">Imagen</div>
+                    <div class="card__body">
+                        <h3 class="card__title">Producto 1</h3>
+                        <p class="card__desc">Descripción breve del producto.</p>
+                        <p class="card__price">$19.99</p>
+                        <button class="btn btn--primary btn--full">Añadir al carrito</button>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="card__image">Imagen</div>
+                    <div class="card__body">
+                        <h3 class="card__title">Producto 2</h3>
+                        <p class="card__desc">Descripción breve del producto.</p>
+                        <p class="card__price">$29.99</p>
+                        <button class="btn btn--primary btn--full">Añadir al carrito</button>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="card__image">Imagen</div>
+                    <div class="card__body">
+                        <h3 class="card__title">Producto 3</h3>
+                        <p class="card__desc">Descripción breve del producto.</p>
+                        <p class="card__price">$39.99</p>
+                        <button class="btn btn--primary btn--full">Añadir al carrito</button>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="card__image">Imagen</div>
+                    <div class="card__body">
+                        <h3 class="card__title">Producto 4</h3>
+                        <p class="card__desc">Descripción breve del producto.</p>
+                        <p class="card__price">$49.99</p>
+                        <button class="btn btn--primary btn--full">Añadir al carrito</button>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="card__image">Imagen</div>
+                    <div class="card__body">
+                        <h3 class="card__title">Producto 5</h3>
+                        <p class="card__desc">Descripción breve del producto.</p>
+                        <p class="card__price">$59.99</p>
+                        <button class="btn btn--primary btn--full">Añadir al carrito</button>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="card__image">Imagen</div>
+                    <div class="card__body">
+                        <h3 class="card__title">Producto 6</h3>
+                        <p class="card__desc">Descripción breve del producto.</p>
+                        <p class="card__price">$69.99</p>
+                        <button class="btn btn--primary btn--full">Añadir al carrito</button>
+                    </div>
+                </article>
+            </section>
+        </main>
+    </div>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__col">
+                <h4>MiTienda</h4>
+                <p>Tu tienda online de confianza.</p>
+            </div>
+            <div class="footer__col">
+                <h4>Enlaces</h4>
+                <ul>
+                    <li><a href="#">Sobre nosotros</a></li>
+                    <li><a href="#">Términos</a></li>
+                    <li><a href="#">Privacidad</a></li>
+                </ul>
+            </div>
+            <div class="footer__col">
+                <h4>Ayuda</h4>
+                <ul>
+                    <li><a href="#">Soporte</a></li>
+                    <li><a href="#">Envíos</a></li>
+                    <li><a href="#">Devoluciones</a></li>
+                </ul>
+            </div>
+            <div class="footer__col">
+                <h4>Contacto</h4>
+                <p>info@mitienda.com</p>
+                <p>+56 9 1234 5678</p>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <p>&copy; 2026 MiTienda. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- ==================== MODAL LOGIN ==================== -->
+    <div class="modal" id="modalLogin">
+        <div class="modal__content">
+            <button class="modal__close" data-close>&times;</button>
+            <h2>Iniciar Sesión</h2>
+            <form class="form">
+                <label>Correo electrónico
+                    <input type="email" placeholder="tucorreo@ejemplo.com" required>
+                </label>
+                <label>Contraseña
+                    <input type="password" placeholder="••••••••" required>
+                </label>
+                <button type="submit" class="btn btn--primary btn--full">Entrar</button>
+                <p class="form__link">¿No tienes cuenta? <a href="#" id="goRegister">Regístrate</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL REGISTRO ==================== -->
+    <div class="modal" id="modalRegister">
+        <div class="modal__content">
+            <button class="modal__close" data-close>&times;</button>
+            <h2>Crear Cuenta</h2>
+            <form class="form">
+                <label>Nombre completo
+                    <input type="text" placeholder="Juan Pérez" required>
+                </label>
+                <label>Correo electrónico
+                    <input type="email" placeholder="tucorreo@ejemplo.com" required>
+                </label>
+                <label>Contraseña
+                    <input type="password" placeholder="••••••••" required>
+                </label>
+                <label>Confirmar contraseña
+                    <input type="password" placeholder="••••••••" required>
+                </label>
+                <button type="submit" class="btn btn--primary btn--full">Registrarme</button>
+                <p class="form__link">¿Ya tienes cuenta? <a href="#" id="goLogin">Inicia sesión</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

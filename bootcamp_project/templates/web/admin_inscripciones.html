@@ -1,0 +1,8 @@
+{% extends 'web/base.html' %}
+{% block title %}Gestionar inscripciones{% endblock %}
+{% block content %}
+<div class="page-heading heading-actions"><div><p class="eyebrow">Administración</p><h1>Inscripciones</h1><p>Consulta el historial e inscribe estudiantes directamente.</p></div><a class="button" href="{% url 'web_admin_inscripcion_nueva' %}">Inscribir estudiante</a></div>
+{% if inscripciones %}<div class="table-wrap"><table><thead><tr><th>Estudiante</th><th>Curso</th><th>Estado</th><th>Fecha</th></tr></thead><tbody>
+  {% for inscripcion in inscripciones %}<tr><td>{{ inscripcion.estudiante.get_full_name|default:inscripcion.estudiante.username }} <span class="muted">({{ inscripcion.estudiante.username }})</span></td><td>{{ inscripcion.curso.nombre }}</td><td>{{ inscripcion.get_estado_display }}</td><td>{{ inscripcion.creada_en|date:'d M Y, H:i' }}</td></tr>{% endfor %}
+</tbody></table></div>{% else %}<div class="empty-state"><h2>Aún no hay inscripciones</h2><p>Aparecerán aquí después de una compra o inscripción directa.</p></div>{% endif %}
+{% endblock %}

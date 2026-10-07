@@ -1,0 +1,17 @@
+{% extends 'web/base.html' %}
+{% block title %}{% if curso %}Editar curso{% else %}Crear curso{% endif %}{% endblock %}
+{% block content %}
+<a class="back-link" href="{% url 'web_admin_cursos' %}">← Cursos</a>
+<div class="page-heading"><p class="eyebrow">Administración</p><h1>{% if curso %}Editar curso{% else %}Crear curso{% endif %}</h1><p>Las fechas se ingresan en la zona horaria configurada del proyecto.</p></div>
+<form class="panel-form" method="post">{% csrf_token %}
+  {% if form.non_field_errors %}<div class="message message-error">{{ form.non_field_errors }}</div>{% endif %}
+  <div class="form-grid">
+    {% for field in form %}<div class="form-field {% if field.name == 'descripcion' or field.name == 'objetivos' or field.name == 'profesores' %}form-field-wide{% endif %}">
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}
+      {% if field.errors %}<div class="field-error">{{ field.errors }}</div>{% endif %}
+      {% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}
+    </div>{% endfor %}
+  </div>
+  <div class="form-actions"><button class="button" type="submit">Guardar curso</button><a href="{% url 'web_admin_cursos' %}">Cancelar</a></div>
+</form>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends 'web/base.html' %}
+{% block title %}Profesores{% endblock %}
+{% block content %}
+<div class="page-heading heading-actions"><div><p class="eyebrow">Administración</p><h1>Profesores</h1><p>Crea cuentas docentes y asígnales cursos desde el editor de cursos.</p></div><a class="button" href="{% url 'web_admin_profesor_nuevo' %}">Crear profesor</a></div>
+{% if profesores %}<div class="table-wrap"><table><thead><tr><th>Profesor</th><th>Usuario</th><th>Correo</th><th>Cursos asignados</th></tr></thead><tbody>
+  {% for profesor in profesores %}<tr><td>{{ profesor.get_full_name|default:profesor.username }}</td><td>{{ profesor.username }}</td><td>{{ profesor.email }}</td><td>{% for curso in profesor.cursos_dictados.all %}{{ curso.nombre }}{% if not forloop.last %}, {% endif %}{% empty %}Sin cursos{% endfor %}</td></tr>{% endfor %}
+</tbody></table></div>{% else %}<div class="empty-state"><h2>Aún no hay profesores</h2><p>Crea una cuenta y asígnala a un curso.</p></div>{% endif %}
+{% endblock %}

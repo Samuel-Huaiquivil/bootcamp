@@ -1,0 +1,12 @@
+{% extends 'web/base.html' %}
+{% block title %}Crear profesor{% endblock %}
+{% block content %}
+<a class="back-link" href="{% url 'web_admin_profesores' %}">← Profesores</a>
+<div class="form-card"><p class="eyebrow">Administración</p><h1>Crear profesor</h1>
+  <form method="post">{% csrf_token %}
+    {% if form.non_field_errors %}<div class="field-error">{{ form.non_field_errors }}</div>{% endif %}
+    {% for field in form %}<label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% if field.errors %}<div class="field-error">{{ field.errors }}</div>{% endif %}{% if field.help_text %}<small>{{ field.help_text|safe }}</small>{% endif %}{% endfor %}
+    <button class="button button-full" type="submit">Crear profesor</button>
+  </form>
+</div>
+{% endblock %}

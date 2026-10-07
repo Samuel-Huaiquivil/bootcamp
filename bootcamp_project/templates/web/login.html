@@ -1,0 +1,14 @@
+{% extends 'web/base.html' %}
+{% block title %}Ingresar{% endblock %}
+{% block content %}
+<div class="form-card"><p class="eyebrow">Tu cuenta</p><h1>Ingresar</h1>
+  {% if form.errors %}<p class="message message-error">Usuario o contraseña incorrectos.</p>{% endif %}
+  <form method="post">{% csrf_token %}
+    <label for="id_username">Usuario</label>{{ form.username }}
+    <label for="id_password">Contraseña</label>{{ form.password }}
+    <input type="hidden" name="next" value="{{ next }}">
+    <button class="button button-full" type="submit">Ingresar</button>
+  </form>
+  <p>¿Aún no tienes cuenta? <a href="{% url 'web_registro' %}">Regístrate</a>.</p>
+</div>
+{% endblock %}

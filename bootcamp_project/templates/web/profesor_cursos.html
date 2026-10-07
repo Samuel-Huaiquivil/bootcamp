@@ -1,0 +1,13 @@
+{% extends 'web/base.html' %}
+{% block title %}Mis cursos · Profesor{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">Docencia</p><h1>Mis cursos</h1><p>Consulta tus cursos asignados y sus estudiantes inscritos.</p></div>
+<div class="item-list">
+  {% for curso in cursos %}
+    <article class="list-card"><div><h2><a href="{% url 'web_profesor_curso' curso.pk %}">{{ curso.nombre }}</a></h2>
+      <p>{{ curso.get_estado_display }} · Inicio {{ curso.fecha_inicio|date:'d M Y, H:i' }} · {{ curso.inscritos }} estudiante{{ curso.inscritos|pluralize }}</p></div>
+      <a class="button button-small" href="{% url 'web_profesor_curso' curso.pk %}">Ver curso</a>
+    </article>
+  {% empty %}<div class="empty-state"><h2>Aún no tienes cursos asignados</h2><p>Un administrador podrá asignarte cursos desde su panel.</p></div>{% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'web/base.html' %}
+{% block title %}Panel de gestión{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">Administración</p><h1>Panel de gestión</h1><p>Gestiona el catálogo, el equipo docente y las inscripciones.</p></div>
+<div class="stat-grid">
+  <a class="stat-card" href="{% url 'web_admin_cursos' %}"><strong>{{ total_cursos }}</strong><span>Cursos · {{ cursos_publicados }} publicados</span></a>
+  <a class="stat-card" href="{% url 'web_admin_profesores' %}"><strong>{{ total_profesores }}</strong><span>Profesores</span></a>
+  <a class="stat-card" href="{% url 'web_admin_inscripciones' %}"><strong>{{ inscripciones_confirmadas }}</strong><span>Inscripciones confirmadas</span></a>
+  <a class="stat-card" href="{% url 'web_admin_ordenes' %}"><strong>{{ ordenes_pendientes }}</strong><span>Órdenes pendientes</span></a>
+</div>
+<div class="admin-actions"><a class="button" href="{% url 'web_admin_curso_nuevo' %}">Crear curso</a><a class="button button-secondary" href="{% url 'web_admin_profesor_nuevo' %}">Crear profesor</a><a class="button button-secondary" href="{% url 'web_admin_inscripcion_nueva' %}">Inscribir estudiante</a></div>
+{% endblock %}
