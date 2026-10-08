@@ -1,3 +1,5 @@
+"""Configura el módulo de cursos de Django."""
+
 from django.apps import AppConfig
 
 

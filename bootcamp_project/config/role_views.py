@@ -1,3 +1,5 @@
+"""Renderiza las páginas de profesor y administración."""
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
@@ -147,3 +149,4 @@ def admin_ordenes(request):
         'items__curso'
     ).order_by('-creada_en')
     return render(request, 'web/admin_ordenes.html', {'ordenes': ordenes})
+

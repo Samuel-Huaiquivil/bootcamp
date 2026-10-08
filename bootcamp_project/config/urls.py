@@ -17,11 +17,22 @@ Including another URLconf
 from django.urls import path, re_path
 from django.contrib.auth import views as auth_views
 from django.shortcuts import redirect
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularSwaggerView
+)
+
 from . import web_views
 from . import role_views
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from apps.users.views import RegistroView, MiPerfilView, UsuariosAdminView
-from apps.courses.views import CursoListaView, CursoDetalleView, CursosAdminView, CursoAdminDetalleView, AsignarProfesorView
+from apps.courses.views import (
+    CursoListaView, 
+    CursoDetalleView, 
+    CursosAdminView, 
+    CursoAdminDetalleView, 
+    AsignarProfesorView
+)
 from apps.cart.views import CarritoView, AgregarCarritoView, QuitarCarritoView
 from apps.orders.views import CrearOrdenView, OrdenesView, PagarOrdenView, OrdenesAdminView
 from apps.enrollments.views import InscripcionesView, CancelarInscripcionView, InscribirAdminView
@@ -42,7 +53,13 @@ urlpatterns = [
     path('gestion/inscripciones/', role_views.admin_inscripciones, name='web_admin_inscripciones'),
     path('gestion/inscripciones/nueva/', role_views.admin_inscripcion_nueva, name='web_admin_inscripcion_nueva'),
     path('gestion/ordenes/', role_views.admin_ordenes, name='web_admin_ordenes'),
-    path('salir/', auth_views.LogoutView.as_view(), name='web_logout'),
+
+    # Vista Web
+    path(
+        'salir/',
+        auth_views.LogoutView.as_view(next_page='web_catalogo'),
+        name='web_logout',
+    ),
     path('carrito/', web_views.carrito, name='web_carrito'),
     path('carrito/agregar/<int:pk>/', web_views.agregar_curso, name='web_agregar'),
     path('carrito/quitar/<int:pk>/', web_views.quitar_curso, name='web_quitar'),
@@ -73,5 +90,11 @@ urlpatterns = [
     path('api/gestion/cursos/<int:pk>/profesores/', AsignarProfesorView.as_view()),
     path('api/gestion/inscripciones/', InscribirAdminView.as_view()),
     path('api/gestion/ordenes/', OrdenesAdminView.as_view()),
+
+    # Esquemas
+    path('api/schema/', SpectacularAPIView.as_view(), name="schema"),
+    path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name="swagger-ui"),
+    
+    # Redirección de rutas inválidas
     re_path(r'^.*$', lambda request: redirect('/', permanent=False)),
 ]

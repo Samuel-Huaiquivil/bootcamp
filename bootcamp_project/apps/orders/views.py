@@ -1,3 +1,5 @@
+"""Expone el historial de órdenes y las acciones de compra por API."""
+
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView

@@ -1,3 +1,5 @@
+"""Valida y presenta cursos en la API."""
+
 from rest_framework import serializers
 from .models import Curso
 

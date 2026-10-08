@@ -1,3 +1,5 @@
+"""Coordina reservas, compras, pagos simulados y reembolsos."""
+
 from datetime import timedelta
 from decimal import Decimal
 

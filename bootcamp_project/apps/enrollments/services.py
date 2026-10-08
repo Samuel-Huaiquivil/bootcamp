@@ -1,3 +1,5 @@
+"""Aplica las reglas para inscribir estudiantes en cursos."""
+
 from django.db import transaction
 from rest_framework.exceptions import ValidationError
 

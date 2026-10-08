@@ -1,3 +1,5 @@
+"""Limita el acceso a vistas según el rol del usuario autenticado."""
+
 from rest_framework.permissions import BasePermission
 
 

@@ -1,3 +1,5 @@
+"""Gestiona consultas, cancelaciones e inscripciones desde la API."""
+
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
 from rest_framework.response import Response

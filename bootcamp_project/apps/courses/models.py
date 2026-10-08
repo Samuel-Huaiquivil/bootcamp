@@ -1,3 +1,5 @@
+"""Define los cursos, su publicación y sus reglas de disponibilidad."""
+
 from decimal import Decimal
 
 from django.conf import settings

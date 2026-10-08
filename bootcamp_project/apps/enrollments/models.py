@@ -1,3 +1,5 @@
+"""Define las inscripciones de estudiantes y sus estados."""
+
 from django.conf import settings
 from django.db import models
 

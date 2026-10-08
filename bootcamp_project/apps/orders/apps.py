@@ -1,3 +1,5 @@
+"""Configura el módulo de órdenes y pagos de Django."""
+
 from django.apps import AppConfig
 
 

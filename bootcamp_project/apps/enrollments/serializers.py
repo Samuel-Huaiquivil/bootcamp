@@ -1,3 +1,5 @@
+"""Serializa las inscripciones para las respuestas de la API."""
+
 from rest_framework import serializers
 from .models import Inscripcion
 

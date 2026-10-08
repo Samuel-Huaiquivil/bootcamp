@@ -1,3 +1,5 @@
+"""Serializa el carrito y los cursos reservados para la API."""
+
 from rest_framework import serializers
 from .models import Carrito, ItemCarrito
 

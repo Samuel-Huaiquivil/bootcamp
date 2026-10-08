@@ -1,8 +1,12 @@
+"""Define las cuentas de usuario y sus roles en la plataforma."""
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
 class Usuario(AbstractUser):
+    """Cuenta con correo único y rol de estudiante, profesor o administrador."""
+
     class Rol(models.TextChoices):
         ADMINISTRADOR = 'administrador', 'Administrador'
         PROFESOR = 'profesor', 'Profesor'

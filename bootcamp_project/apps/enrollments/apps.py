@@ -1,3 +1,5 @@
+"""Configura el módulo de inscripciones de Django."""
+
 from django.apps import AppConfig
 
 

@@ -1,3 +1,5 @@
+"""Serializa órdenes, cursos comprados y pagos para la API."""
+
 from rest_framework import serializers
 from .models import Orden, ItemOrden, Pago
 

@@ -1,3 +1,5 @@
+"""Define órdenes, sus cursos asociados y el estado de los pagos."""
+
 import uuid
 from django.conf import settings
 from django.db import models
